@@ -1,0 +1,2374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#dc2626">
+<title>Capital One Bank — Online Banking</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --primary: #dc2626;
+    --secondary: #991b1b;
+    --bg: #ffffff;
+    --card: #ffffff;
+    --text: #111827;
+    --muted: #6b7280;
+    --border: #f3f4f6;
+    --card-bg-dark: #dc2626;
+    --card-text-light: #ffffff;
+    --accent-green: #dc2626;
+    --accent-green-bright: #ef4444;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+}
+
+button,
+input,
+select {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+.user-name-green {
+    color: var(--primary) !important;
+    font-weight: 800;
+}
+
+/* SVG ICON HELPER */
+.svg-icon {
+    width: 1.2em;
+    height: 1.2em;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* LOGIN */
+#loginPage {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 25px;
+    background: #fef2f2;
+}
+
+.login-container {
+    width: 100%;
+    max-width: 430px;
+}
+
+.brand {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.logo {
+    width: 80px;
+    height: 80px;
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 6px rgba(220, 38, 38, 0.2));
+}
+
+.brand h1 {
+    font-size: 27px;
+    color: #991b1b;
+}
+
+.brand p {
+    color: var(--muted);
+    margin-top: 5px;
+}
+
+.login-card {
+    background: var(--card);
+    padding: 28px;
+    border-radius: 22px;
+    border: 1px solid #fee2e2;
+    box-shadow: 0 10px 30px rgba(220,38,38,.08);
+}
+
+.login-card h2 {
+    margin-bottom: 7px;
+}
+
+.login-card > p {
+    color: var(--muted);
+    margin-bottom: 22px;
+}
+
+/* FORMS */
+.form-group {
+    margin-bottom: 16px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 7px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.form-control {
+    width: 100%;
+    padding: 13px 14px;
+    border: 1px solid #e5e7eb;
+    border-radius: 11px;
+    background: var(--card);
+    color: var(--text);
+    outline: none;
+}
+
+.form-control:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(220,38,38,.15);
+}
+
+.btn {
+    border: 0;
+    border-radius: 11px;
+    padding: 13px 17px;
+    font-weight: 700;
+    transition: .2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn:hover {
+    opacity: 0.9;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: #ffffff;
+}
+
+.btn-secondary {
+    background: #ffffff;
+    color: var(--primary);
+    border: 1px solid var(--primary);
+}
+
+.btn-light {
+    background: #ffffff;
+    color: var(--text);
+    border: 1px solid #e5e7eb;
+}
+
+.btn-danger {
+    background: var(--primary);
+    color: #ffffff;
+    border: 1px solid var(--primary);
+}
+
+.btn-success {
+    background: var(--primary);
+    color: #ffffff;
+}
+
+.full {
+    width: 100%;
+}
+
+/* APP */
+#app {
+    display: none;
+}
+
+.layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 245px;
+    background: var(--card);
+    border-right: 1px solid #e5e7eb;
+    padding: 22px 15px;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    overflow-y: auto;
+}
+
+.side-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 10px 25px;
+}
+
+.side-logo {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    object-fit: contain;
+}
+
+.side-brand strong {
+    font-size: 18px;
+    color: #991b1b;
+}
+
+.nav-section {
+    margin: 17px 10px 8px;
+    color: var(--muted);
+    text-transform: uppercase;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.nav-link {
+    width: 100%;
+    padding: 11px 12px;
+    border: 0;
+    background: transparent;
+    color: var(--muted);
+    text-align: left;
+    border-radius: 10px;
+    margin-bottom: 3px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    background: var(--primary);
+    color: #ffffff;
+}
+
+.logout-btn {
+    color: var(--primary);
+}
+
+.logout-btn:hover {
+    background: var(--primary);
+    color: #ffffff;
+}
+
+/* MAIN */
+.main {
+    margin-left: 245px;
+    width: calc(100% - 245px);
+}
+
+.topbar {
+    height: 70px;
+    background: var(--card);
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 28px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.mobile-menu {
+    display: none;
+}
+
+.top-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.icon-btn {
+    border: 1px solid #e5e7eb;
+    background: var(--card);
+    color: var(--text);
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-btn:hover {
+    background: #f9fafb;
+}
+
+.user-chip {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin-left: 8px;
+}
+
+.avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 13px;
+}
+
+.content {
+    padding: 28px;
+    max-width: 1500px;
+    margin: auto;
+}
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+.page-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 22px;
+}
+
+.page-title h1 {
+    font-size: 26px;
+}
+
+.page-title p {
+    color: var(--muted);
+    margin-top: 5px;
+}
+
+/* CARDS */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.stat-card {
+    background: var(--card);
+    border: 1px solid #e5e7eb;
+    border-radius: 17px;
+    padding: 19px;
+}
+
+.stat-label {
+    color: var(--muted);
+    font-size: 12px;
+    margin-bottom: 10px;
+}
+
+.stat-value {
+    font-size: 25px;
+    font-weight: 800;
+}
+
+.stat-change {
+    margin-top: 7px;
+    font-size: 12px;
+    color: var(--muted);
+}
+
+.positive {
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.negative {
+    color: var(--muted);
+    font-weight: 600;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 18px;
+}
+
+.panel {
+    background: var(--card);
+    border: 1px solid #e5e7eb;
+    border-radius: 17px;
+    padding: 20px;
+    margin-bottom: 18px;
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 17px;
+}
+
+.panel-header h3 {
+    font-size: 16px;
+}
+
+/* BALANCE CARD */
+.balance-card {
+    background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+    color: var(--card-text-light);
+    border-radius: 20px;
+    padding: 25px;
+    margin-bottom: 18px;
+    position: relative;
+    overflow: hidden;
+}
+
+.balance-card:after {
+    content: "";
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    border: 35px solid rgba(255,255,255,.1);
+    border-radius: 50%;
+    right: -70px;
+    top: -80px;
+}
+
+.balance-small {
+    font-size: 12px;
+    opacity: .85;
+}
+
+.balance-amount {
+    font-size: 36px;
+    font-weight: 800;
+    margin: 7px 0 25px;
+    color: #ffffff;
+}
+
+.balance-bottom {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    opacity: .9;
+}
+
+/* QUICK ACTIONS */
+.quick-actions {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 10px;
+}
+
+.quick-action {
+    border: 1px solid #e5e7eb;
+    background: var(--card);
+    color: var(--text);
+    padding: 15px 8px;
+    border-radius: 13px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.quick-action:hover {
+    background: var(--primary);
+    color: #ffffff;
+}
+
+.quick-action .svg-icon {
+    width: 24px;
+    height: 24px;
+}
+
+.quick-action small {
+    font-weight: 600;
+}
+
+/* TRANSACTIONS */
+.transaction {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 13px 0;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.transaction:last-child {
+    border-bottom: 0;
+}
+
+.transaction-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.tx-icon {
+    width: 39px;
+    height: 39px;
+    border-radius: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fef2f2;
+    color: var(--primary);
+    border: 1px solid #fee2e2;
+}
+
+.tx-name {
+    font-weight: 700;
+    font-size: 13px;
+}
+
+.tx-date {
+    color: var(--muted);
+    font-size: 11px;
+    margin-top: 3px;
+}
+
+.tx-amount {
+    font-weight: 800;
+    font-size: 13px;
+}
+
+/* ACCOUNT CARDS */
+.account-grid {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 18px;
+}
+
+.account-card {
+    background: var(--card);
+    border: 1px solid #e5e7eb;
+    border-radius: 18px;
+    padding: 22px;
+}
+
+.account-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.account-type {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.account-balance {
+    font-size: 28px;
+    font-weight: 800;
+    margin: 20px 0;
+}
+
+.account-number {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+/* TABLE */
+.table-wrap {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    text-align: left;
+    padding: 14px 10px;
+    border-bottom: 1px solid #e5e7eb;
+    font-size: 13px;
+}
+
+th {
+    color: var(--muted);
+    font-size: 11px;
+    text-transform: uppercase;
+}
+
+.status {
+    display: inline-block;
+    padding: 5px 9px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.status.success, .status.pending {
+    background: #fee2e2;
+    color: var(--primary);
+}
+
+/* CARDS */
+.bank-card {
+    max-width: 440px;
+    height: 250px;
+    border-radius: 22px;
+    padding: 25px;
+    color: white;
+    background: linear-gradient(135deg, #dc2626 0%, #7f1d1d 100%);
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.bank-card:before {
+    content: "";
+    position: absolute;
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    border: 50px solid rgba(255,255,255,.07);
+    right: -80px;
+    top: -100px;
+}
+
+.card-bank-name {
+    font-weight: 800;
+    font-size: 18px;
+}
+
+.card-type {
+    text-align: right;
+    font-size: 12px;
+    opacity: .8;
+}
+
+.card-number {
+    font-size: 22px;
+    letter-spacing: 3px;
+    margin-top: 55px;
+}
+
+.card-details {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 22px;
+    font-size: 10px;
+}
+
+/* MODAL */
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.65);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 100;
+}
+
+.modal.show {
+    display: flex;
+}
+
+.modal-card {
+    width: 100%;
+    max-width: 480px;
+    max-height: 90vh;
+    overflow-y: auto;
+    background: var(--card);
+    color: var(--text);
+    border-radius: 20px;
+    padding: 24px;
+    border: 1px solid #e5e7eb;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.close {
+    background: transparent;
+    border: 0;
+    color: var(--muted);
+    font-size: 25px;
+}
+
+/* TOAST */
+.toast {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    background: var(--primary);
+    color: white;
+    padding: 14px 18px;
+    border-radius: 11px;
+    display: none;
+    z-index: 200;
+    box-shadow: 0 10px 30px rgba(220,38,38,.25);
+    border: 1px solid #ef4444;
+}
+
+.toast.show {
+    display: block;
+}
+
+/* PROFILE */
+.profile-box {
+    max-width: 700px;
+}
+
+.profile-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    font-weight: 800;
+    margin-bottom: 15px;
+}
+
+/* EMPTY */
+.empty {
+    text-align: center;
+    color: var(--muted);
+    padding: 35px;
+}
+
+/* LOCKED SCREEN OVERLAY */
+#lockScreen {
+    position: fixed;
+    inset: 0;
+    background: #ffffff;
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.lock-card {
+    width: 100%;
+    max-width: 480px;
+    background: var(--card);
+    border: 1px solid #e5e7eb;
+    border-radius: 20px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,.08);
+}
+
+.lock-header {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+}
+
+.lock-card h2 {
+    font-size: 22px;
+    margin-bottom: 15px;
+}
+
+.lock-card p {
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+/* MOBILE */
+@media (max-width: 950px) {
+    .sidebar {
+        transform: translateX(-100%);
+        transition: .25s;
+        z-index: 50;
+        box-shadow: 10px 0 30px rgba(0,0,0,.1);
+    }
+
+    .sidebar.open {
+        transform: translateX(0);
+    }
+
+    .main {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .mobile-menu {
+        display: block;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(2,1fr);
+    }
+
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 650px) {
+    .content {
+        padding: 18px 14px 90px;
+    }
+
+    .topbar {
+        padding: 0 14px;
+    }
+
+    .topbar .user-chip span {
+        display: none;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(2,1fr);
+        gap: 10px;
+    }
+
+    .stat-card {
+        padding: 15px;
+    }
+
+    .stat-value {
+        font-size: 18px;
+    }
+
+    .quick-actions {
+        grid-template-columns: repeat(2,1fr);
+    }
+
+    .account-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .balance-amount {
+        font-size: 26px;
+    }
+
+    .page-title h1 {
+        font-size: 22px;
+    }
+
+    .bank-card {
+        height: 220px;
+    }
+
+    .card-number {
+        margin-top: 42px;
+        font-size: 18px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+<section id="loginPage">
+    <div class="login-container">
+
+        <div class="brand">
+            <img src="https://i.ibb.co/x8zYGkKC/1-AF73-A0-E-06-C2-46-EA-9-E8-B-5-C3-C119-E66-E4.png" alt="Logo" class="logo">
+            <h1>Capital One Bank</h1>
+            <p>Modern banking, simplified.</p>
+        </div>
+
+        <div class="login-card">
+            <h2>Welcome back</h2>
+            <p>Sign in to your account.</p>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label>Email / Username</label>
+                    <input
+                        id="loginEmail"
+                        class="form-control"
+                        type="email"
+                        placeholder="Email / Username"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label>Password</label>
+                    <input
+                        id="loginPassword"
+                        class="form-control"
+                        type="password"
+                        placeholder="Password"
+                        required
+                    >
+                </div>
+
+                <button class="btn btn-primary full" type="submit">
+                    Sign In
+                </button>
+            </form>
+        </div>
+
+    </div>
+</section>
+
+
+<!-- ACCOUNT LOCKED SCREEN -->
+<div id="lockScreen">
+    <div class="lock-card">
+        <div class="lock-header">
+            <button class="close" onclick="closeLockScreen()">×</button>
+        </div>
+        <h2>Account Locked</h2>
+        <p>Account locked for security purposes</p>
+        <br>
+        <p><strong>Unlock your account by paying the amount of $50,000.00</strong></p>
+    </div>
+</div>
+
+
+<!-- APPLICATION -->
+<div id="app">
+
+    <div class="layout">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar" id="sidebar">
+
+            <div class="side-brand">
+                <img src="https://i.ibb.co/x8zYGkKC/1-AF73-A0-E-06-C2-46-EA-9-E8-B-5-C3-C119-E66-E4.png" alt="Logo" class="side-logo">
+                <strong>Capital One Bank</strong>
+            </div>
+
+            <div class="nav-section">Banking</div>
+
+            <button class="nav-link active" data-page="dashboard">
+                <svg class="svg-icon" viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                Dashboard
+            </button>
+
+            <button class="nav-link" data-page="accounts">
+                <svg class="svg-icon" viewBox="0 0 24 24"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
+                Accounts
+            </button>
+
+            <button class="nav-link" data-page="cards">
+                <svg class="svg-icon" viewBox="0 0 24 24"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
+                Cards
+            </button>
+
+            <button class="nav-link" data-page="transfers">
+                <svg class="svg-icon" viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                Transfers
+            </button>
+
+            <button class="nav-link" data-page="payments">
+                <svg class="svg-icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                Payments
+            </button>
+
+            <button class="nav-link" data-page="transactions">
+                <svg class="svg-icon" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                Transactions
+            </button>
+
+            <div class="nav-section">Personal</div>
+
+            <button class="nav-link" data-page="notifications">
+                <svg class="svg-icon" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+                Notifications
+            </button>
+
+            <button class="nav-link" data-page="profile">
+                <svg class="svg-icon" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                Profile
+            </button>
+
+            <button class="nav-link" data-page="settings">
+                <svg class="svg-icon" viewBox="0 0 24 24"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.38a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+                Settings
+            </button>
+
+            <button class="nav-link" data-page="support">
+                <svg class="svg-icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                Help & Support
+            </button>
+
+            <div class="nav-section">Account</div>
+
+            <button class="nav-link logout-btn" onclick="logout()">
+                <svg class="svg-icon" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                Sign Out
+            </button>
+
+        </aside>
+
+
+        <!-- MAIN -->
+        <main class="main">
+
+            <header class="topbar">
+
+                <button class="icon-btn mobile-menu" onclick="toggleSidebar()">
+                    <svg class="svg-icon" viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                </button>
+
+                <div>
+                    <strong id="topTitle">Dashboard</strong>
+                </div>
+
+                <div class="top-actions">
+
+                    <button class="icon-btn" onclick="showPage('notifications')">
+                        <svg class="svg-icon" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+                    </button>
+
+                    <div class="user-chip">
+                        <div class="avatar">LS</div>
+                        <span class="user-name-green" id="topChipName">Laura santos</span>
+                    </div>
+
+                </div>
+
+            </header>
+
+
+            <div class="content">
+
+                <!-- DASHBOARD -->
+                <section class="page active" id="dashboard">
+
+                    <div class="page-title">
+                        <div>
+                            <h1>Good morning, <span class="user-name-green" id="greetingName">Laura santos</span></h1>
+                            <p>Here's your current balance and account overview.</p>
+                        </div>
+                    </div>
+
+                    <div class="balance-card">
+                        <div class="balance-small">
+                            TOTAL PORTFOLIO BALANCE
+                        </div>
+
+                        <div class="balance-amount" id="totalBalance">
+                            $4,709.89
+                        </div>
+
+                        <div class="balance-bottom">
+                            <span>Capital One Bank</span>
+                            <span>•••• 4821</span>
+                        </div>
+                    </div>
+
+                    <div class="quick-actions">
+
+                        <button class="quick-action" onclick="openModal('transferModal')">
+                            <svg class="svg-icon" viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                            <small>Transfer</small>
+                        </button>
+
+                        <button class="quick-action" onclick="openModal('depositModal')">
+                            <svg class="svg-icon" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                            <small>Deposit</small>
+                        </button>
+
+                        <button class="quick-action" onclick="openModal('withdrawModal')">
+                            <svg class="svg-icon" viewBox="0 0 24 24"><line x1="17" y1="7" x2="7" y2="17"/><polyline points="17 17 7 17 7 7"/></svg>
+                            <small>Withdraw</small>
+                        </button>
+
+                        <button class="quick-action" onclick="showPage('payments')">
+                            <svg class="svg-icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                            <small>Pay Bills</small>
+                        </button>
+
+                    </div>
+
+                    <br>
+
+                    <div class="stats-grid">
+
+                        <div class="stat-card">
+                            <div class="stat-label">Checking Balance</div>
+                            <div class="stat-value" id="statChecking">$3,709.89</div>
+                            <div class="stat-change positive">+2.4% this month</div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-label">Savings Balance</div>
+                            <div class="stat-value" id="statSavings">$1,000.00</div>
+                            <div class="stat-change positive">+1.1% growth</div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-label">Monthly Income</div>
+                            <div class="stat-value">$4,500.00</div>
+                            <div class="stat-change positive">+5.0%</div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-label">Expenses</div>
+                            <div class="stat-value">$932.00</div>
+                            <div class="stat-change negative">-0.5%</div>
+                        </div>
+
+                    </div>
+
+                    <div class="dashboard-grid">
+
+                        <div class="panel">
+                            <div class="panel-header">
+                                <h3>Recent Transactions</h3>
+                                <button class="btn btn-light" onclick="showPage('transactions')">
+                                    View all
+                                </button>
+                            </div>
+
+                            <div id="recentTransactions"></div>
+                        </div>
+
+                        <div class="panel">
+                            <div class="panel-header">
+                                <h3>My Accounts</h3>
+                            </div>
+
+                            <div class="account-card">
+                                <div class="account-top">
+                                    <div>
+                                        <strong>Checking Account</strong>
+                                        <div class="account-type">Primary account</div>
+                                    </div>
+                                    <svg class="svg-icon" viewBox="0 0 24 24"><path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M8 10v11M12 10v11M16 10v11M20 10v11"/></svg>
+                                </div>
+
+                                <div class="account-balance" id="dashCheckingVal">
+                                    $3,709.89
+                                </div>
+
+                                <div class="account-number">
+                                    Account •••• 4821
+                                </div>
+                            </div>
+
+                            <br>
+
+                            <div class="account-card">
+                                <div class="account-top">
+                                    <div>
+                                        <strong>Savings Account</strong>
+                                        <div class="account-type">High-Yield Savings</div>
+                                    </div>
+                                    <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 6v12M15 9.5C15 8.1 13.7 7 12 7s-3 1.1-3 2.5 1.3 2.5 3 2.5 3 1.1 3 2.5-1.3 2.5-3 2.5-3-1.1-3-2.5"/></svg>
+                                </div>
+
+                                <div class="account-balance" id="dashSavingsVal">
+                                    $1,000.00
+                                </div>
+
+                                <div class="account-number">
+                                    Account •••• 9154
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- ACCOUNTS -->
+                <section class="page" id="accounts">
+
+                    <div class="page-title">
+                        <div>
+                            <h1>Accounts</h1>
+                            <p>Manage your Capital One Bank accounts.</p>
+                        </div>
+                    </div>
+
+                    <div class="account-grid">
+
+                        <div class="account-card">
+
+                            <div class="account-top">
+                                <div>
+                                    <strong>Checking Account</strong>
+                                    <div class="account-type">
+                                        Primary spending account
+                                    </div>
+                                </div>
+                                <svg class="svg-icon" viewBox="0 0 24 24"><path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M8 10v11M12 10v11M16 10v11M20 10v11"/></svg>
+                            </div>
+
+                            <div class="account-balance" id="pageCheckingVal">$3,709.89</div>
+
+                            <p class="account-number">
+                                Account number: ••••••••4821
+                            </p>
+
+                            <br>
+
+                            <button class="btn btn-primary"
+                                onclick="openModal('transferModal')">
+                                Transfer
+                            </button>
+
+                        </div>
+
+                        <div class="account-card">
+
+                            <div class="account-top">
+                                <div>
+                                    <strong>Savings Account</strong>
+                                    <div class="account-type">
+                                        Personal savings
+                                    </div>
+                                </div>
+                                <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 6v12M15 9.5C15 8.1 13.7 7 12 7s-3 1.1-3 2.5 1.3 2.5 3 2.5 3 1.1 3 2.5-1.3 2.5-3 2.5-3-1.1-3-2.5"/></svg>
+                            </div>
+
+                            <div class="account-balance" id="pageSavingsVal">$1,000.00</div>
+
+                            <p class="account-number">
+                                Account number: ••••••••9154
+                            </p>
+
+                            <br>
+
+                            <button class="btn btn-primary"
+                                onclick="openModal('depositModal')">
+                                Deposit
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- CARDS -->
+                <section class="page" id="cards">
+
+                    <div class="page-title">
+                        <div>
+                            <h1>My Cards</h1>
+                            <p>Your Capital One Bank debit and credit cards.</p>
+                        </div>
+                    </div>
+
+                    <div class="panel">
+
+                        <div class="bank-card">
+
+                            <div class="card-bank-name">
+                                CAPITAL ONE BANK
+                            </div>
+
+                            <div class="card-type">
+                                RED DEBIT
+                            </div>
+
+                            <div class="card-number">
+                                4821 •••• •••• 7392
+                            </div>
+
+                            <div class="card-details">
+                                <div>
+                                    CARD HOLDER<br>
+                                    <strong id="cardHolderName" class="user-name-green" style="color:#ffffff !important;">LAURA SANTOS</strong>
+                                </div>
+
+                                <div>
+                                    VALID THRU<br>
+                                    <strong>12/30</strong>
+                                </div>
+
+                                <div>
+                                    STATUS<br>
+                                    <strong>ACTIVE</strong>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <button class="btn btn-secondary" onclick="toast('Card frozen')">
+                            Freeze Card
+                        </button>
+
+                        <button class="btn btn-light" onclick="toast('Card settings opened')">
+                            Card Settings
+                        </button>
+
+                    </div>
+
+                </section>
+
+
+                <!-- TRANSFERS -->
+                <section class="page" id="transfers">
+
+                    <div class="page-title">
+                        <div>
+                            <h1>Transfers</h1>
+                            <p>Move funds securely between accounts.</p>
+                        </div>
+
+                        <button class="btn btn-primary"
+                            onclick="openModal('transferModal')">
+                            New Transfer
+                        </button>
+                    </div>
+
+                    <div class="panel">
+
+                        <h3>Recent Transfers</h3>
+
+                        <br>
+
+                        <div id="transferList"></div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- PAYMENTS -->
+                <section class="page" id="payments">
+
+                    <div class="page-title">
+                        <div>
+                            <h1>Bill Payments</h1>
+                            <p>Pay bills quickly and securely.</p>
+                        </div>
+                    </div>
+
+                    <div class="account-grid">
+
+                        <div class="panel">
+                            <h3>Electricity</h3>
+                            <p style="color:var(--muted);margin:8px 0 15px">
+                                Pay electricity bill
+                            </p>
+                            <button class="btn btn-primary"
+                                onclick="openPayment('Electricity')">
+                                Pay Bill
+                            </button>
+                        </div>
+
+                        <div class="panel">
+                            <h3>Internet</h3>
+                            <p style="color:var(--muted);margin:8px 0 15px">
+                                Pay internet bill
+                            </p>
+                            <button class="btn btn-primary"
+                                onclick="openPayment('Internet')">
+                                Pay Bill
+                            </button>
+                        </div>
+
+                        <div class="panel">
+                            <h3>Phone</h3>
+                            <p style="color:var(--muted);margin:8px 0 15px">
+                                Pay phone bill
+                            </p>
+                            <button class="btn btn-primary"
+                                onclick="openPayment('Phone')">
+                                Pay Bill
+                            </button>
+                        </div>
+
+                        <div class="panel">
+                            <h3>Television</h3>
+                            <p style="color:var(--muted);margin:8px 0 15px">
+                                Pay television bill
+                            </p>
+                            <button class="btn btn-primary"
+                                onclick="openPayment('Television')">
+                                Pay Bill
+                            </button>
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- TRANSACTIONS -->
+                <section class="page" id="transactions">
+
+                    <div class="page-title">
+                        <div>
+                            <h1>Transactions</h1>
+                            <p>View your transaction history.</p>
+                        </div>
+                    </div>
+
+                    <div class="panel">
+
+                        <input
+                            class="form-control"
+                            id="transactionSearch"
+                            placeholder="Search transactions..."
+                            oninput="renderTransactions()"
+                        >
+
+                        <br>
+
+                        <div class="table-wrap">
+
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Description</th>
+                                        <th>Type</th>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                        <th>Amount</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody id="transactionTable"></tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- NOTIFICATIONS -->
+                <section class="page" id="notifications">
+
+                    <div class="page-title">
+                        <div>
+                            <h1>Notifications</h1>
+                            <p>Your account notifications.</p>
+                        </div>
+                    </div>
+
+                    <div class="panel">
+
+                        <div class="transaction">
+                            <div class="transaction-left">
+                                <div class="tx-icon">
+                                    <svg class="svg-icon" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                                </div>
+                                <div>
+                                    <div class="tx-name">
+                                        Deposit Received
+                                    </div>
+                                    <div class="tx-date">
+                                        $209.89 credited to Checking Account (Oct 21, 2026)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="transaction">
+                            <div class="transaction-left">
+                                <div class="tx-icon">
+                                    <svg class="svg-icon" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                                </div>
+                                <div>
+                                    <div class="tx-name">
+                                        Security Notification
+                                    </div>
+                                    <div class="tx-date">
+                                        Login successful from authorized device
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="transaction">
+                            <div class="transaction-left">
+                                <div class="tx-icon">
+                                    <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 6v12M15 9.5C15 8.1 13.7 7 12 7s-3 1.1-3 2.5 1.3 2.5 3 2.5 3 1.1 3 2.5-1.3 2.5-3 2.5-3-1.1-3-2.5"/></svg>
+                                </div>
+                                <div>
+                                    <div class="tx-name">
+                                        Savings Interest Credited
+                                    </div>
+                                    <div class="tx-date">
+                                        Monthly interest payout applied to Savings
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- PROFILE -->
+                <section class="page" id="profile">
+
+                    <div class="page-title">
+                        <div>
+                            <h1>Profile</h1>
+                            <p>Manage your personal information.</p>
+                        </div>
+                    </div>
+
+                    <div class="panel profile-box">
+
+                        <div class="profile-avatar">
+                            LS
+                        </div>
+
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input class="form-control user-name-green" id="profileName" value="Laura santos">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input class="form-control" id="profileEmail" value="Lauralinda636465@gmail.com">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Phone</label>
+                            <input class="form-control" value="+1 (555) 392-8104">
+                        </div>
+
+                        <button class="btn btn-primary" onclick="updateProfile()">
+                            Save Changes
+                        </button>
+
+                    </div>
+
+                </section>
+
+
+                <!-- SETTINGS -->
+                <section class="page" id="settings">
+
+                    <div class="page-title">
+                        <div>
+                            <h1>Settings</h1>
+                            <p>Manage your banking preferences.</p>
+                        </div>
+                    </div>
+
+                    <div class="panel">
+
+                        <div class="transaction">
+                            <div>
+                                <strong>Two-Factor Authentication</strong>
+                                <div class="tx-date">
+                                    Security verification via Email & SMS
+                                </div>
+                            </div>
+
+                            <button class="btn btn-primary"
+                                    onclick="toast('2FA is enabled')">
+                                Enabled
+                            </button>
+                        </div>
+
+                        <div class="transaction">
+                            <div>
+                                <strong>Change Password</strong>
+                                <div class="tx-date">
+                                    Update your password
+                                </div>
+                            </div>
+
+                            <button class="btn btn-light"
+                                    onclick="toast('Password settings opened')">
+                                Manage
+                            </button>
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- SUPPORT -->
+                <section class="page" id="support">
+
+                    <div class="page-title">
+                        <div>
+                            <h1>Help & Support</h1>
+                            <p>How can we help?</p>
+                        </div>
+                    </div>
+
+                    <div class="account-grid">
+
+                        <div class="panel">
+                            <h3>Support Chat</h3>
+                            <p style="color:var(--muted);margin:10px 0">
+                                Talk to Capital One Bank support team.
+                            </p>
+
+                            <button class="btn btn-primary"
+                                    onclick="toast('Support chat opened')">
+                                Start Chat
+                            </button>
+                        </div>
+
+                        <div class="panel">
+                            <h3>FAQ</h3>
+                            <p style="color:var(--muted);margin:10px 0">
+                                Find answers to common questions.
+                            </p>
+
+                            <button class="btn btn-light"
+                                    onclick="toast('FAQ opened')">
+                                View FAQ
+                            </button>
+                        </div>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+        </main>
+
+    </div>
+
+</div>
+
+
+<!-- TRANSFER MODAL -->
+<div class="modal" id="transferModal">
+
+    <div class="modal-card">
+
+        <div class="modal-header">
+            <h2>Transfer Funds</h2>
+            <button class="close" onclick="closeModal('transferModal')">
+                ×
+            </button>
+        </div>
+
+        <form id="transferForm">
+
+            <div class="form-group">
+                <label>From Account</label>
+                <select class="form-control">
+                    <option>Checking •••• 4821 ($3,709.89)</option>
+                    <option>Savings •••• 9154 ($1,000.00)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Recipient Name</label>
+                <input
+                    class="form-control"
+                    id="recipient"
+                    placeholder="Recipient name"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label>Account Number</label>
+                <input
+                    class="form-control"
+                    placeholder="•••• 0000"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label>Amount</label>
+                <input
+                    class="form-control"
+                    id="transferAmount"
+                    type="number"
+                    min="1"
+                    step="0.01"
+                    placeholder="0.00"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label>Description</label>
+                <input
+                    class="form-control"
+                    placeholder="Optional description"
+                >
+            </div>
+
+            <button class="btn btn-primary full">
+                Review & Confirm Transfer
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- DEPOSIT MODAL -->
+<div class="modal" id="depositModal">
+
+    <div class="modal-card">
+
+        <div class="modal-header">
+            <h2>Deposit Funds</h2>
+            <button class="close" onclick="closeModal('depositModal')">
+                ×
+            </button>
+        </div>
+
+        <form id="depositForm">
+
+            <div class="form-group">
+                <label>Account</label>
+
+                <select class="form-control">
+                    <option>Checking •••• 4821</option>
+                    <option>Savings •••• 9154</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Amount</label>
+
+                <input
+                    class="form-control"
+                    id="depositAmount"
+                    type="number"
+                    min="1"
+                    step=".01"
+                    placeholder="0.00"
+                    required
+                >
+            </div>
+
+            <button class="btn btn-primary full">
+                Complete Deposit
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- WITHDRAW MODAL -->
+<div class="modal" id="withdrawModal">
+
+    <div class="modal-card">
+
+        <div class="modal-header">
+            <h2>Withdraw Funds</h2>
+            <button class="close" onclick="closeModal('withdrawModal')">
+                ×
+            </button>
+        </div>
+
+        <form id="withdrawForm">
+
+            <div class="form-group">
+                <label>Account</label>
+
+                <select class="form-control">
+                    <option>Checking •••• 4821</option>
+                    <option>Savings •••• 9154</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Amount</label>
+
+                <input
+                    class="form-control"
+                    id="withdrawAmount"
+                    type="number"
+                    min="1"
+                    step=".01"
+                    placeholder="0.00"
+                    required
+                >
+            </div>
+
+            <button class="btn btn-primary full">
+                Complete Withdrawal
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- PAYMENT MODAL -->
+<div class="modal" id="paymentModal">
+
+    <div class="modal-card">
+
+        <div class="modal-header">
+            <h2 id="paymentTitle">Pay Bill</h2>
+            <button class="close" onclick="closeModal('paymentModal')">
+                ×
+            </button>
+        </div>
+
+        <form id="paymentForm">
+
+            <input type="hidden" id="paymentType">
+
+            <div class="form-group">
+                <label>Customer / Reference Number</label>
+
+                <input
+                    class="form-control"
+                    required
+                    placeholder="Reference number"
+                >
+            </div>
+
+            <div class="form-group">
+                <label>Amount</label>
+
+                <input
+                    class="form-control"
+                    id="paymentAmount"
+                    type="number"
+                    min="1"
+                    step=".01"
+                    required
+                    placeholder="0.00"
+                >
+            </div>
+
+            <button class="btn btn-primary full">
+                Complete Payment
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<div class="toast" id="toast"></div>
+
+
+<script>
+
+/* =========================
+   DATABASE INITIAL STATE
+========================= */
+
+const defaultAccountData = {
+    userName: "Laura santos",
+    userEmail: "Lauralinda636465@gmail.com",
+    checkingBalance: 3709.89,
+    savingsBalance: 1000.00,
+    transactions: [
+        {
+            description: "Direct Deposit",
+            type: "Deposit",
+            amount: 209.89,
+            date: "Oct 21, 2026",
+            status: "Completed"
+        },
+        {
+            description: "Grocery Store Purchase",
+            type: "Card Purchase",
+            amount: 125.50,
+            date: "Oct 19, 2026",
+            status: "Completed"
+        },
+        {
+            description: "Mobile Transfer",
+            type: "Transfer",
+            amount: 50.00,
+            date: "Oct 18, 2026",
+            status: "Completed"
+        },
+        {
+            description: "Savings Interest Payout",
+            type: "Interest Payout",
+            amount: 12.40,
+            date: "Oct 08, 2026",
+            status: "Completed"
+        }
+    ]
+};
+
+// Reset/Initialize with exact state
+let accountData = defaultAccountData;
+localStorage.setItem("capitalOneData_v3", JSON.stringify(accountData));
+
+
+/* =========================
+   LOGIN
+========================= */
+
+document.getElementById("loginForm").addEventListener("submit", function(e) {
+
+    e.preventDefault();
+
+    const emailVal = document.getElementById("loginEmail").value.trim().toLowerCase();
+    const passVal = document.getElementById("loginPassword").value.trim();
+
+    if (emailVal !== "lauralinda636465@gmail.com" || passVal !== "Laura001") {
+        toast("Invalid credentials");
+        return;
+    }
+
+    document.getElementById("loginPage").style.display = "none";
+    document.getElementById("app").style.display = "block";
+
+    updateBalance();
+    renderTransactions();
+    renderRecentTransactions();
+
+    toast("Welcome back, " + accountData.userName);
+
+});
+
+
+function logout() {
+
+    document.getElementById("loginEmail").value = "";
+    document.getElementById("loginPassword").value = "";
+
+    document.getElementById("app").style.display = "none";
+    document.getElementById("loginPage").style.display = "flex";
+
+    toast("Signed out successfully");
+
+}
+
+
+/* =========================
+   NAVIGATION
+========================= */
+
+document.querySelectorAll(".nav-link[data-page]").forEach(button => {
+
+    button.addEventListener("click", function() {
+
+        showPage(this.dataset.page);
+
+        document.querySelectorAll(".nav-link").forEach(link => {
+            link.classList.remove("active");
+        });
+
+        this.classList.add("active");
+
+    });
+
+});
+
+
+function showPage(pageName) {
+
+    document.querySelectorAll(".page").forEach(page => {
+        page.classList.remove("active");
+    });
+
+    const page = document.getElementById(pageName);
+
+    if (page) {
+        page.classList.add("active");
+    }
+
+    document.getElementById("topTitle").textContent =
+        pageName.charAt(0).toUpperCase() + pageName.slice(1);
+
+    document.getElementById("sidebar").classList.remove("open");
+
+    if (pageName === "transactions") {
+        renderTransactions();
+    }
+
+    if (pageName === "transfers") {
+        renderTransfers();
+    }
+
+}
+
+
+/* =========================
+   SIDEBAR
+========================= */
+
+function toggleSidebar() {
+
+    document.getElementById("sidebar").classList.toggle("open");
+
+}
+
+
+/* =========================
+   MODALS
+========================= */
+
+function openModal(id) {
+
+    document.getElementById(id).classList.add("show");
+
+}
+
+
+function closeModal(id) {
+
+    document.getElementById(id).classList.remove("show");
+
+}
+
+
+document.querySelectorAll(".modal").forEach(modal => {
+
+    modal.addEventListener("click", function(e) {
+
+        if (e.target === modal) {
+            modal.classList.remove("show");
+        }
+
+    });
+
+});
+
+
+/* =========================
+   TOAST
+========================= */
+
+function toast(message) {
+
+    const box = document.getElementById("toast");
+
+    box.textContent = message;
+
+    box.classList.add("show");
+
+    setTimeout(() => {
+        box.classList.remove("show");
+    }, 3000);
+
+}
+
+
+/* =========================
+   BALANCE DISPLAY
+========================= */
+
+function formatCurrency(val) {
+    return "$" + val.toLocaleString("en-US", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    });
+}
+
+function updateBalance() {
+    const total = accountData.checkingBalance + accountData.savingsBalance;
+
+    document.getElementById("totalBalance").textContent = formatCurrency(total);
+    
+    document.getElementById("statChecking").textContent = formatCurrency(accountData.checkingBalance);
+    document.getElementById("dashCheckingVal").textContent = formatCurrency(accountData.checkingBalance);
+    document.getElementById("pageCheckingVal").textContent = formatCurrency(accountData.checkingBalance);
+
+    document.getElementById("statSavings").textContent = formatCurrency(accountData.savingsBalance);
+    document.getElementById("dashSavingsVal").textContent = formatCurrency(accountData.savingsBalance);
+    document.getElementById("pageSavingsVal").textContent = formatCurrency(accountData.savingsBalance);
+}
+
+
+/* =========================
+   SAVE DATA
+========================= */
+
+function saveData() {
+    localStorage.setItem(
+        "capitalOneData_v3",
+        JSON.stringify(accountData)
+    );
+}
+
+
+/* =========================
+   TRANSACTIONS
+========================= */
+
+const SVG_INCOMING = `<svg class="svg-icon" viewBox="0 0 24 24"><line x1="17" y1="7" x2="7" y2="17"/><polyline points="17 17 7 17 7 7"/></svg>`;
+const SVG_OUTGOING = `<svg class="svg-icon" viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>`;
+
+function renderRecentTransactions() {
+
+    const container = document.getElementById("recentTransactions");
+    const transactions = accountData.transactions.slice(0,6);
+
+    container.innerHTML = "";
+
+    transactions.forEach(tx => {
+        container.innerHTML += `
+            <div class="transaction">
+                <div class="transaction-left">
+                    <div class="tx-icon">
+                        ${SVG_INCOMING}
+                    </div>
+                    <div>
+                        <div class="tx-name">
+                            ${tx.description}
+                        </div>
+                        <div class="tx-date">
+                            ${tx.date} · ${tx.type}
+                        </div>
+                    </div>
+                </div>
+                <div class="tx-amount positive">
+                    +${formatCurrency(Math.abs(tx.amount))}
+                </div>
+            </div>
+        `;
+    });
+
+}
+
+
+function renderTransactions() {
+
+    const table = document.getElementById("transactionTable");
+    const search = document.getElementById("transactionSearch")?.value.toLowerCase() || "";
+
+    table.innerHTML = "";
+
+    accountData.transactions
+        .filter(tx =>
+            tx.description.toLowerCase().includes(search) ||
+            tx.type.toLowerCase().includes(search)
+        )
+        .forEach(tx => {
+            table.innerHTML += `
+                <tr>
+                    <td>
+                        <strong>${tx.description}</strong>
+                    </td>
+                    <td>${tx.type}</td>
+                    <td>${tx.date}</td>
+                    <td>
+                        <span class="status success">
+                            ${tx.status}
+                        </span>
+                    </td>
+                    <td class="positive">
+                        +${formatCurrency(Math.abs(tx.amount))}
+                    </td>
+                </tr>
+            `;
+        });
+
+}
+
+
+/* =========================
+   TRANSFER FAILED PROMPT
+========================= */
+
+let activeModalToReopen = null;
+
+function triggerTransferFailedPrompt(modalId, formElement) {
+    activeModalToReopen = modalId;
+    closeModal(modalId);
+    formElement.reset();
+    toast("FAILED ❌");
+}
+
+function closeLockScreen() {
+    document.getElementById("lockScreen").style.display = "none";
+    if (activeModalToReopen) {
+        openModal(activeModalToReopen);
+        activeModalToReopen = null;
+    }
+}
+
+
+/* =========================
+   TRANSFER
+========================= */
+
+document.getElementById("transferForm")
+.addEventListener("submit", function(e) {
+    e.preventDefault();
+    const amount = parseFloat(document.getElementById("transferAmount").value);
+    if (!amount || amount <= 0) {
+        toast("Enter a valid amount");
+        return;
+    }
+    triggerTransferFailedPrompt("transferModal", this);
+});
+
+
+/* =========================
+   DEPOSIT
+========================= */
+
+document.getElementById("depositForm")
+.addEventListener("submit", function(e) {
+    e.preventDefault();
+    const amount = parseFloat(document.getElementById("depositAmount").value);
+    if (!amount || amount <= 0) {
+        toast("Enter a valid amount");
+        return;
+    }
+    closeModal("depositModal");
+    this.reset();
+    toast("Please download the app to use this feature");
+});
+
+
+/* =========================
+   WITHDRAW
+========================= */
+
+document.getElementById("withdrawForm")
+.addEventListener("submit", function(e) {
+    e.preventDefault();
+    const amount = parseFloat(document.getElementById("withdrawAmount").value);
+    if (!amount || amount <= 0) {
+        toast("Enter a valid amount");
+        return;
+    }
+    closeModal("withdrawModal");
+    this.reset();
+    toast("Please download the app to use this feature");
+});
+
+
+/* =========================
+   PAYMENTS
+========================= */
+
+function openPayment(type) {
+    document.getElementById("paymentType").value = type;
+    document.getElementById("paymentTitle").textContent = "Pay " + type + " Bill";
+    openModal("paymentModal");
+}
+
+
+document.getElementById("paymentForm")
+.addEventListener("submit", function(e) {
+    e.preventDefault();
+    const amount = parseFloat(document.getElementById("paymentAmount").value);
+    if (!amount || amount <= 0) {
+        toast("Enter a valid amount");
+        return;
+    }
+    closeModal("paymentModal");
+    this.reset();
+    toast("Please download the app to use this feature");
+});
+
+
+/* =========================
+   TRANSFER LIST
+========================= */
+
+function renderTransfers() {
+
+    const container = document.getElementById("transferList");
+    container.innerHTML = "";
+
+    const transfers = accountData.transactions.filter(tx => tx.type === "Transfer");
+
+    if (!transfers.length) {
+        container.innerHTML = `<div class="empty">No transfers yet.</div>`;
+        return;
+    }
+
+    transfers.forEach(tx => {
+        container.innerHTML += `
+            <div class="transaction">
+                <div class="transaction-left">
+                    <div class="tx-icon">${SVG_INCOMING}</div>
+                    <div>
+                        <div class="tx-name">
+                            ${tx.description}
+                        </div>
+                        <div class="tx-date">
+                            ${tx.date}
+                        </div>
+                    </div>
+                </div>
+                <div class="positive">
+                    +${formatCurrency(Math.abs(tx.amount))}
+                </div>
+            </div>
+        `;
+    });
+
+}
+
+/* =========================
+   PROFILE UPDATE
+========================= */
+function updateProfile() {
+    const newName = document.getElementById("profileName").value;
+    const newEmail = document.getElementById("profileEmail").value;
+
+    if (newName) {
+        accountData.userName = newName;
+        document.getElementById("greetingName").textContent = newName;
+        document.getElementById("topChipName").textContent = newName;
+        document.getElementById("cardHolderName").textContent = newName.toUpperCase();
+    }
+    if (newEmail) accountData.userEmail = newEmail;
+
+    saveData();
+    toast("Profile updated successfully");
+}
+
+
+/* =========================
+   INITIALIZATION
+========================= */
+
+updateBalance();
+renderRecentTransactions();
+
+</script>
+
+</body>
+</html>
